@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>HTML Forms</h2>
+
+<form name="form1" >
+   name:<br>
+  <input type="text" name="name" id="name">
+  <br>
+
+  password:<br>
+  <input type="password" name="password" id="password" >
+  <br>
+
+  confirm:<br>
+  <input type="password" name="confirm" id="confirm">
+
+   <span id = "error1"></span>
+<br>
+
+<button type="submit" id="submit" >Go</button>
+
+</form>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $('#submit').click(
+        function() {
+        var postData = {
+           name : $('#name').val(),
+            password : $('#password').val(),
+            confirm : $('#confirm').val()
+        };
+
+        if ($('#password').val() != $('#confirm').val()) {
+            document.getElementById("error1").innerHTML="password not equal confirmation ";
+            return false;
+        }
+        else {
+
+alert( JSON.stringify(postData));
+            $.ajax({
+                url: '/route',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(postData),
+                success: function(data) {
+                    console.log('success');
+                    console.log(JSON.stringify(postData.name));
+                }
+
+            });
+        }
+
+    });
+</script>
+
+
+</body>
+</html>
