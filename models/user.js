@@ -10,8 +10,8 @@ const user_schema = new schema({
         type: String,
         required: true
     },
-    BOD: {
-        type: Date,
+    Telephone: {
+        type: String,
         required: false
     },
     name: {

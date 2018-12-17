@@ -1,0 +1,19 @@
+<div class="row">
+    <div class="card card-body">
+        <h3>candidate Login.</h3>
+        <form action="/users/login" method="post">
+
+            <div class="form-group">
+                <label>username or e-mail</label>
+                <input type="text" name="username" value="{{username}}" required class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" value="{{password}}" required class="form-control">
+            </div>
+            <div>
+                <input type="submit" name="Login" class="btn btn-primary">
+            </div>
+        </form>
+    </div>
+</div>
