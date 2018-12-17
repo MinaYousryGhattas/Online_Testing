@@ -125,11 +125,22 @@ router.get("/logout",function (req,res) {
 });
 
 
-router.get('/view_cv', function(request, response){
-  var tempFile='H:\\courses\\Fourth\\FT\\IA\\Project\\Online_Testing\\public\\Lecture _02-a.pdf';
+router.get('/view_cv', function(req, res){
+  // var tempFile='H:\\courses\\Fourth\\FT\\IA\\Project\\Online_Testing\\public\\Lecture _02-a.pdf';
+  // fs.readFile(tempFile, function (err,data){
+  //   response.contentType("application/pdf");
+  //   response.send(data);
+  // });
+  res.render('viewcv');
+});
+
+
+router.get('/name', function(req, res){
+  var tempFile='H:\\courses\\Fourth\\FT\\IA\\Project\\Online_Testing\\public\\1.pdf';
   fs.readFile(tempFile, function (err,data){
-    response.contentType("application/pdf");
-    response.send(data);
+    res.contentType("application/pdf");
+    res.send(data);
   });
 });
+
 module.exports = router;
