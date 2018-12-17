@@ -1,28 +1,27 @@
-var address_controller = require('./address_controller');
-module.exports = {
-    add_user: function (username, email, phone_number, address_id, password,callback) {
-        address = address_controller.get_address(address_id, function(err, result){
-            var MongoClient = require('mongodb').MongoClient;
-            var url = "mongodb://localhost:27017/";
-            var user={
-                username: username,
-                email: email,
-                phone_number: phone_number,
-                address: result,
-                password: password
-            };
+// requires
+const mongoose = require('mongoose');
+var user = require('./../models/user');
+//
+const User = mongoose.model('user');
 
-            MongoClient.connect(url, function (err, db) {
-                if (err) throw err;
-                var dbo = db.db("online_testing");
-                dbo.collection("users").insertOne(user, function (err, res) {
-                    if (err) throw err;
-                    db.close();
-                    callback(false, true)
-                });
-            });
-        })
+module.exports = {
+    register: function (username, email, name, password, bod, callback) {
+        const new_user = new User({
+            username: username,
+            email: email,
+            name: name,
+            password: password,
+            BOD: bod
+        });
+        new_user.save().then(user=> {
+                callback(null, user)
+            }
+        ).catch(err => {
+                callback(err, null)
+            }
+        )
     }
+
 };
 
 

@@ -1,0 +1,59 @@
+<!--<html>-->
+<!--<head>-->
+    <!--<title>Register</title>-->
+<!--</head>-->
+<!--<body>-->
+    <!--<form action="/users/register" method="post">-->
+        <!--username:<input type="text" name="username" value="<%  %>" required><br>-->
+        <!--email:<input type="text" name="email" required><br>-->
+        <!--name:<input type="text" name="name" required><br>-->
+        <!--birthday:<input type="text" name="birth_of_date" required><br>-->
+        <!--password:<input type="password" name="password" required><br>-->
+        <!--re-password:<input type="password" name="password1" required><br>-->
+
+        <!--<input type="submit" name="submit">-->
+    <!--</form>-->
+<!--</body>-->
+
+<!--</html>-->
+<div class="row">
+    <div class="card card-body">
+
+        <h3>Registration form </h3>
+        <form action="/users/register" method="post">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="username" value="{{username}}" class="form-control" required>
+
+            </div>
+            <div class="form-group">
+                <label>email</label>
+                <input type="text" name="email" value="{{email}}" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>name</label>
+                <input type="text" name="name" value="{{name}}" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label>Birthday</label>
+                <input type="text" name="BOD" value="{{BOD}}" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label>password</label>
+                <input type="password" name="password" value="{{password}}" class="form-control" required>
+            </div>
+
+
+            <div class="form-group">
+                <label>retype password</label>
+                <input type="password" name="password1" value="{{password1}}" class="form-control" required>
+            </div>
+
+            <input type="submit" name="submit" class="btn btn-primary">
+        </form>
+
+    </div>
+
+</div>
