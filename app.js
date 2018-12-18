@@ -27,6 +27,7 @@ mongoose.connect(configDB.url)
 // view engine setup
 var indexRouter = require('./routes');
 var usersRouter = require('./routes/users');
+var hrsRouter = require('./routes/hrs');
 
 ///////////////////////////////////////////////////////////
 
@@ -75,7 +76,7 @@ app.use(function(err, req, res, next) {
 
 app.use('/',indexRouter);
 app.use('/users',usersRouter);
-
+app.use('/hrs',hrsRouter);
 
 
 
