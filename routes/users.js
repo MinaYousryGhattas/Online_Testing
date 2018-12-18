@@ -7,7 +7,7 @@ var bcrypt = require('bcryptjs');
 var session = require('express-session');
 var user_controller = require('./../controllers/user_controller');
 var router = express.Router();
-
+var fs = require("fs");
 // define user
 var user = require('./../models/user');
 const User = mongoose.model('user');
@@ -39,7 +39,7 @@ router.post('/register', (req, res) => {
         .then(user => {
           if(user){
             console.log("Error");
-            req.flash('error_msg', 'Username or Email already registered');
+            req.flash('error_message', 'Username or Email already registered');
             res.redirect('register');
           } else {
             const newUser = new User({
@@ -61,7 +61,8 @@ router.post('/register', (req, res) => {
                     return;
                   }
                   passport.authenticate('local')(req, res, function () {
-                    res.render('users');
+                    req.flash("success_message");
+                    res.render('user');
                   })
 
                 });
@@ -77,4 +78,69 @@ router.post('/register', (req, res) => {
 router.get('/register',function (req,res,next) {
   res.render('register')
 });
+
+router.get('/login', function (req, res) {
+  res.render('login')
+});
+
+router.post('/login', (req, res) => {
+  // form validation
+  errors = [];
+  if (req.body.password <= 8){
+    errors.push("Password must be greater than 8 characters");
+  }
+  if (req.body.username.length <=0){
+    errors.push("username is required");
+  }
+  if (errors.length > 0){
+    res.render('login',{
+      errors: errors,
+      username: req.body.username,
+      password: req.body.password
+    });
+  }
+  else {
+    passport.authenticate('local', {
+      successRedirect: (req.session.returnTo || 'user'),
+      failureRedirect: '/users/login',
+      failureFlash: true
+    }) (req, res, function(){
+      req.flash("success_message");
+      res.redirect('/users/user');
+    });
+  }
+
+
+
+});
+
+router.get("/user", function (req, res) {
+  res.render('user')
+});
+
+router.get("/logout",function (req,res) {
+  req.logout();
+  req.flash('success_message','logged out');
+  res.redirect('/users/login');
+});
+
+
+router.get('/view_cv', function(req, res){
+  // var tempFile='H:\\courses\\Fourth\\FT\\IA\\Project\\Online_Testing\\public\\Lecture _02-a.pdf';
+  // fs.readFile(tempFile, function (err,data){
+  //   response.contentType("application/pdf");
+  //   response.send(data);
+  // });
+  res.render('viewcv');
+});
+
+
+router.get('/name', function(req, res){
+  var tempFile='H:\\courses\\Fourth\\FT\\IA\\Project\\Online_Testing\\public\\1.pdf';
+  fs.readFile(tempFile, function (err,data){
+    res.contentType("application/pdf");
+    res.send(data);
+  });
+});
+
 module.exports = router;
