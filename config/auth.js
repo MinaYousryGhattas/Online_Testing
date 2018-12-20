@@ -3,7 +3,7 @@ module.exports = {
         if(req.isAuthenticated()){
             return next();
         }
-        req.flash('error_msg', 'Not Authorized');
+        req.flash('error_message', 'You have to log-in first');
         req.session.returnTo = req.originalUrl;
         res.redirect('login');
     }

@@ -1,11 +1,26 @@
 <div class="row">
-    <div class="form-group">
-        <label>name: {{user.name}}</label>
-        <label>username: {{user.username}}</label>
-        <label>email: {{user.email}}</label>
-        <label>Birthday: {{user.BOD}}</label>
+    <div>
+        <div class="form-group">
+            <label>name: {{user.name}}</label>
+            <br>
+            <label>username: {{user.username}}</label>
+            <br>
+            <label>email: {{user.email}}</label>
+            <br>
+            <label>Birthday: {{user.BOD}}</label>
+        </div>
+        <div class="form-group">
+            {{#if user.cv_path}}
+                <form action="/users/view_cv" method="get">
+                    <input type="submit" name="View CV" value="View CV" class="btn btn-primary">
+                </form>
+            {{else}}
+                <form action="/users/upload_cv" method="post" enctype="multipart/form-data">
+                    <input type="file" class="form-control" id="cv" name="cv" required>
+                    <br>
+                    <input type="submit" name="upload cv" value="Upload CV" class="btn btn-primary">
+                </form>
+            {{/if}}
+        </div>
     </div>
-    <form action="/users/view_cv" method="get">
-        <input type="submit" name="View CV" class="btn btn-primary">
-    </form>
 </div>

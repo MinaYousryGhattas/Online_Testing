@@ -21,6 +21,10 @@ const user_schema = new schema({
     password: {
         type: String,
         required: true
+    },
+    cv_path: {
+        type: String,
+        required: false
     }
 });
 //mongoose.connect('mongodb://localhost/online_testing');

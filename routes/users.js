@@ -11,6 +11,20 @@ var fs = require("fs");
 // define user
 var user = require('./../models/user');
 const User = mongoose.model('user');
+// check auth..
+var {ensureAuthenticated} = require('./../config/auth');
+// upload cv config....
+var multer = require('multer');
+var storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'public/uploads/cvs')
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.fieldname+ '-' + Date.now()+'.pdf');
+  }
+});
+var upload_cv = multer({storage: storage});
+
 
 /* GET users listing. */
 router.post('/register', (req, res) => {
@@ -114,8 +128,8 @@ router.post('/login', (req, res) => {
 
 });
 
-router.get("/user", function (req, res) {
-  res.render('user')
+router.get("/user", ensureAuthenticated, function (req, res) {
+  res.render('user');
 });
 
 router.get("/logout",function (req,res) {
@@ -125,22 +139,27 @@ router.get("/logout",function (req,res) {
 });
 
 
-router.get('/view_cv', function(req, res){
-  // var tempFile='H:\\courses\\Fourth\\FT\\IA\\Project\\Online_Testing\\public\\Lecture _02-a.pdf';
-  // fs.readFile(tempFile, function (err,data){
-  //   response.contentType("application/pdf");
-  //   response.send(data);
-  // });
+router.get('/view_cv', ensureAuthenticated,function(req, res){
   res.render('viewcv');
 });
 
 
-router.get('/name', function(req, res){
-  var tempFile='H:\\courses\\Fourth\\FT\\IA\\Project\\Online_Testing\\public\\1.pdf';
+router.get('/get_cv_data', ensureAuthenticated, function(req, res){
+  var tempFile=req.user.cv_path;
   fs.readFile(tempFile, function (err,data){
     res.contentType("application/pdf");
     res.send(data);
   });
 });
+
+router.post('/upload_cv', ensureAuthenticated, upload_cv.single('cv'), (req,res,next)=>{
+    User.findOne({username: req.user.username}).then(user =>{
+      user.cv_path = req.file.path;
+      user.save().then(user =>{
+        req.flash('success_message', 'CV uploaded');
+        res.redirect('/users/user');})
+    });
+});
+
 
 module.exports = router;
