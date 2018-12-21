@@ -2,7 +2,6 @@ let mongoose = require('mongoose');
 let schema = mongoose.Schema;
 
 const QuestionSchema = new schema({
-
         theQuestion: {
             type: String,
             required: true
@@ -23,5 +22,6 @@ const QuestionSchema = new schema({
             type: String,
             required: true
         }]
+    }
 );
 mongoose.model('question',QuestionSchema);
