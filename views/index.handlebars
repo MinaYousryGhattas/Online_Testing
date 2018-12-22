@@ -1,19 +1,18 @@
-<!--<!DOCTYPE html>-->
-<!--<html>-->
-  <!--<head>-->
-    <!--<title><%= title %></title>-->
-    <!--<link rel='stylesheet' href='/stylesheets/style.css' />-->
-  <!--</head>-->
-  <!--<body>-->
-    <!--<h1><%= title %></h1>-->
-    <!--<p>Welcome to <%= title %></p>-->
-    <!--<form action="/users/register" method="get">-->
-      <!--<input type="submit" name="register">-->
-    <!--</form>-->
-  <!--</body>-->
-<!--</html>-->
-<div class="jumbotron text-center">
-    <h1 class="display-3">{{title}}</h1>
-    <p class="lead">JOBS </p>
-    <a href="/job/add" class="btn btn-dark btn-lg">Add Job Opening</a>
+<div class="card card-body">
+    <h3 class="test-muted">Posted Jobs</h3>
+    <br/>
+    <div class="card-deck mb-3">
+        {{#each jobs}}
+            <div class="card card-body mb-2">
+                <h4>{{title}}</h4>
+                <p>{{description}}</p>
+                <a class="btn btn-primary btn-block mb-2" href="/jobs/view/{{_id}}">View</a>
+            </div>
+        {{else}}
+            <p>No jobs posted</p>
+        {{/each}}
+    </div>
+
+    <a class="btn btn-primary btn-block mb-2" href="/jobs/create_job">Create Job</a>
+
 </div>

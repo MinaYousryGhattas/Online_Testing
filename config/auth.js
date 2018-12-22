@@ -5,6 +5,6 @@ module.exports = {
         }
         req.flash('error_message', 'You have to log-in first');
         req.session.returnTo = req.originalUrl;
-        res.redirect('login');
+        res.redirect('/users/login');
     }
 }

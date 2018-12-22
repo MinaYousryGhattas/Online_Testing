@@ -27,7 +27,8 @@ mongoose.connect(configDB.url)
 // view engine setup
 var indexRouter = require('./routes');
 var usersRouter = require('./routes/users');
-var hrsRouter = require('./routes/hrs');
+var jobsRouter = require('./routes/jobs');
+//var hrsRouter = require('./routes/hrs');
 
 ///////////////////////////////////////////////////////////
 
@@ -35,11 +36,11 @@ app.engine('handlebars', exphbs({
   defaultLayout: 'main'
 }));
 app.set('view engine', 'handlebars');
-
+///////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride('_method'));
 app.use(session({
@@ -76,7 +77,9 @@ app.use(function(err, req, res, next) {
 
 app.use('/',indexRouter);
 app.use('/users',usersRouter);
-app.use('/hrs',hrsRouter);
+app.use('/jobs', jobsRouter);
+app.use('/users_ajax', require('./routes/ajax_routes/users_ajax'));
+//app.use('/hrs',hrsRouter);
 
 
 
