@@ -1,0 +1,20 @@
+<div class="card card-body">
+    <h3 class="test-muted">Topics</h3>
+    <br/>
+    <div class="card-deck mb-3">
+        {{#each topics}}
+            <div class="card card-body mb-2">
+                <h4>{{name}}</h4>
+                <a class="btn btn-primary btn-block mb-2" href="/topics/view_topic/{{_id}}">View</a>
+            </div>
+
+        {{else}}
+            <p>No topics found !!</p>
+        {{/each}}
+    </div>
+
+    <!--
+    <a class="btn btn-primary btn-block mb-2" href="/topics/add_topics">Add Topic</a>
+    -->
+
+</div>

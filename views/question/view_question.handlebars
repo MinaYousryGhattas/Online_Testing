@@ -1,0 +1,29 @@
+<!--<div class="row">-->
+<div class="panel panel-default">
+    <div class="panel-heading">Question</div>
+
+    <div class="panel-body">
+        <p>The question:</p>
+        <p>{{question.the_question}}</p>
+    </div>
+
+    <div class="panel-body">
+        <p>Right answer:</p>
+        {{#each question.right_answers}}
+            <p>{{this}}</p>
+        {{else}}
+            <p>No right answers found</p>
+        {{/each}}
+    </div>
+    <div class="panel-body">
+        <p>Wrong answer:</p>
+        {{#each question.wrong_answers}}
+            <p>{{this}}</p>
+        {{else}}
+            <p>No wrong answers found</p>
+        {{/each}}
+    </div>
+</div>
+
+
+<!--</div>-->

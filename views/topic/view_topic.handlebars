@@ -1,0 +1,15 @@
+<!--<div class="row">-->
+<div class="panel panel-default">
+    <div class="panel-heading">Topic</div>
+    <div class="panel-body">{{topic.name}}</div>
+    <div class="panel-body">
+        {{#each topic.questions}}
+            <div class="card card-body mb-2">
+                <a class="btn btn-primary btn-block mb-2" href="/questions/view_question/{{_id}}">View Question</a>
+            </div>
+        {{else}}
+            <p>No question found</p>
+        {{/each}}
+    </div>
+</div>
+<!--</div>-->

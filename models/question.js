@@ -2,7 +2,8 @@ let mongoose = require('mongoose');
 let schema = mongoose.Schema;
 
 const QuestionSchema = new schema({
-        theQuestion: {
+    //db.questions.insertOne({"the_question": "What is your name?", "candidateAnswer":"??", "marked": "false", "right_answers":["Nardeen"],"wrong_answers":"Mina"})
+        the_question: {
             type: String,
             required: true
         },
@@ -11,17 +12,19 @@ const QuestionSchema = new schema({
             required: true
         },
         marked: {
-            type: boolean,
+            type: Boolean,
             required: true
         },
-        rightAnswers: [{
+        right_answers: [{
+            type: String,
+            required: true
+        }],
+        wrong_answers: [{
             type: String,
             required: true
         }]
-        wrongAnswers: [{
-            type: String,
-            required: true
-        }]
-    }
+    },
+    {usePushEach: true},
+    {usePullEach: true}
 );
 mongoose.model('question',QuestionSchema);
