@@ -67,8 +67,8 @@ router.post('/create_job', ensureAuthenticated, (req,res)=>{
         errors.push("Description  is required")
     }
     if (errors.length > 0){
-        res.render('job/job_form',{
-            title: job.body.title,
+        res.render('job/create_job',{
+            title: req.body.title,
             description: req.body.description
         })
     }
@@ -78,11 +78,11 @@ router.post('/create_job', ensureAuthenticated, (req,res)=>{
     });
     new_job.save().then(job=>{
         req.flash("success_message", "Job is created successfully");
-        req.redirect('/');
+        res.redirect('/');
     }).catch(err=>{
         req.flash('error_message', "Job creation failed");
-        req.render('job/job_form',{
-            title: job.body.title,
+        res.render('job/create_job',{
+            title: req.body.title,
             description: req.body.description
         });
     })

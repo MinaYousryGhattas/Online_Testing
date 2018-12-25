@@ -62,7 +62,6 @@ router.post('/register', (req, res) => {
               email: req.body.email,
               password: req.body.password,
               BOD: req.body.BOD,
-              ishr :"no"
             });
 
             bcrypt.genSalt(10, (err, salt) => {
@@ -118,14 +117,16 @@ router.post('/login', (req, res) => {
   }
   else {
     passport.authenticate('local', {
-      successRedirect: (req.session.returnTo),
+      successRedirect: (req.session.returnTo  ),
       failureRedirect: '/users/login',
       failureFlash: true
     }) (req, res, function(){
       req.flash("success_message");
-      console.log(req.user.ishr);
       if(req.user.ishr==="yes")
+      {
+        req.flash("ishr");
         res.redirect('/users/hr');
+      }
       else
         res.redirect('/users/user');
     });

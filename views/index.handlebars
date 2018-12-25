@@ -12,7 +12,7 @@
             <p>No jobs posted</p>
         {{/each}}
     </div>
-
-    <a class="btn btn-primary btn-block mb-2" href="/jobs/create_job">Create Job</a>
-
+    {{#if user.ishr}}
+         <a class="btn btn-primary btn-block mb-2" href="/jobs/create_job">Create Job</a>
+    {{/if}}
 </div>

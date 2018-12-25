@@ -19,10 +19,14 @@
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink">{{user.name}}</a>
                         <div class="dropdown-menu">
-                            <a href="/job/add" class="dropdown-item">Post Job</a>
-                            <a href="/job" class="dropdown-item">Posted Jobs</a>
-                            <a href="/exam/add" class="dropdown-item">Add Exam</a>
-                            <a href="/exam/" class="dropdown-item">Show Exams</a>
+                            {{#if user.ishr}}
+                                <a href="/jobs/create_job" class="dropdown-item">Post Job</a>
+                                <a href="/exam/add" class="dropdown-item">Add Exam</a>
+                            {{else}}
+                                <a href="/jobs/job_view" class="dropdown-item">Posted Jobs</a>
+                                <a href="/exam/" class="dropdown-item">Show Exams</a>
+
+                            {{/if}}
                         </div>
                     </li>
                     <li class="nav-item">
