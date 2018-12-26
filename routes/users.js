@@ -61,14 +61,14 @@ router.post('/register', (req, res) => {
               username: req.body.username,
               email: req.body.email,
               password: req.body.password,
-              BOD: req.body.BOD
+              BOD: req.body.BOD,
             });
 
             bcrypt.genSalt(10, (err, salt) => {
               bcrypt.hash(newUser.password, salt, (err, hash) => {
                 if(err) throw err;
                 newUser.password = hash;
-                user_controller.register(newUser.username, newUser.email,newUser.name,newUser.password,newUser.BOD,
+                user_controller.register(newUser.username, newUser.email,newUser.name,newUser.password,newUser.BOD,newUser.ishr,
                     function (error, result) {
                   if (error){
                     console.log(err)
@@ -76,7 +76,9 @@ router.post('/register', (req, res) => {
                   }
                   passport.authenticate('local')(req, res, function () {
                     req.flash("success_message");
-                    res.render('user');
+                    console.log(req.user.ishr);
+
+                     res.render('user');
                   })
 
                 });
@@ -100,7 +102,7 @@ router.get('/login', function (req, res) {
 router.post('/login', (req, res) => {
   // form validation
   errors = [];
-  if (req.body.password <= 8){
+  if (req.body.password < 8){
     errors.push("Password must be greater than 8 characters");
   }
   if (req.body.username.length <=0){
@@ -115,12 +117,18 @@ router.post('/login', (req, res) => {
   }
   else {
     passport.authenticate('local', {
-      successRedirect: (req.session.returnTo || 'user'),
+      successRedirect: (req.session.returnTo  ),
       failureRedirect: '/users/login',
       failureFlash: true
     }) (req, res, function(){
       req.flash("success_message");
-      res.redirect('/users/user');
+      if(req.user.ishr==="yes")
+      {
+        req.flash("ishr");
+        res.redirect('/users/hr');
+      }
+      else
+        res.redirect('/users/user');
     });
   }
 
@@ -130,6 +138,9 @@ router.post('/login', (req, res) => {
 
 router.get("/user", ensureAuthenticated, function (req, res) {
   res.render('user');
+});
+router.get("/hr", ensureAuthenticated, function (req, res) {
+  res.render('hr');
 });
 
 router.get("/logout",function (req,res) {
