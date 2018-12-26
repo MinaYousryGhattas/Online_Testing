@@ -25,14 +25,7 @@ const user_schema = new schema({
     cv_path: {
         type: String,
         required: false
-    },
-    ishr: {
-        type: String,
-        required: false
-
     }
-
 });
-
 //mongoose.connect('mongodb://localhost/online_testing');
 mongoose.model('user', user_schema);
