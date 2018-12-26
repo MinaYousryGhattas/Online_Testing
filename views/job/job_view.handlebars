@@ -9,10 +9,8 @@
         <div class="panel-heading">Description</div>
         <div class="panel-body">{{job.description}}</div>
     </div>
-{{#if user.ishr}}
-{{else}}
     <form action="/jobs/apply_form/{{job._id}}" method="get">
             <button type="submit" class="btn btn-primary">Apply</button>
     </form>
-{{/if}}
+
 <!--</div>-->

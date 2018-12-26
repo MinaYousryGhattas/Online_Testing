@@ -6,8 +6,6 @@ const bcrypt = require('bcryptjs');
 var user = require('./../models/user');
 const User = mongoose.model('user');
 
-
-
 module.exports = function(passport){
     passport.use(new LocalStrategy({usernameField: 'username'}, (username, password, done) => {
         // Match user
@@ -21,22 +19,15 @@ module.exports = function(passport){
             bcrypt.compare(password, user.password, (err, isMatch) => {
                 if(err) throw err;
                 if(isMatch){
-
                     return done(null, user);
-
                 } else {
                     return done(null, false, {message: 'Username Or Password not Found'});
                 }
             })
         })
     }));
-    passport.use('hr',new LocalStrategy(function (name,password,done){
 
-        }
-
-    ));
     passport.serializeUser(function(user, done) {
-
         done(null, user.id);
     });
 
@@ -45,5 +36,4 @@ module.exports = function(passport){
             done(err, user);
         });
     });
-
 }
