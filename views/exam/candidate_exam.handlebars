@@ -1,0 +1,24 @@
+<!--<div class="row">-->
+<div class="panel panel-default">
+    <div class="panel-heading">Exam</div>
+    <div class="panel-body"><h1>{{exam.exam_type.type_name}}</h1> </div>
+
+    <form action="/exams/submit_exam/{{exam._id}}" method="post">
+        <div class="panel-body">
+            {{#each exam.exam_questions}}
+                <div class="panel-body">
+                   <h5>  <b><input type="checkbox" name={{_id}} value="{{the_question}}"> {{the_question}}</b></h5>
+                </div>
+                <div class="panel-body">
+                    <p><input type="radio" name={{_id}} value="{{wrong_answers.[0]}}">{{wrong_answers.[0]}}</p>
+                    <p><input type="radio" name={{_id}} value="{{wrong_answers.[1]}}">{{wrong_answers.[1]}}</p>
+                    <p><input type="radio" name={{_id}} value="{{right_answers.[0]}}">{{right_answers.[0]}}</p>
+                    <p><input type="radio" name={{_id}} value="{{wrong_answers.[2]}}">{{wrong_answers.[2]}}</p>
+                </div>
+            {{else}}
+                <p>No question found</p>
+            {{/each}}
+            <button class="btn btn-primary btn-block mb-2" type="submit">Submit</button>
+        </div>
+    </form>
+</div>

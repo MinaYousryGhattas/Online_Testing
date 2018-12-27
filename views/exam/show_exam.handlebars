@@ -1,0 +1,24 @@
+<!--<div class="row">-->
+<div class="panel panel-default">
+    <div class="panel-heading">Exam</div>
+    <div class="panel-body">{{exam.exam_type.type_name}}</div>
+    <div class="panel-body">
+        {{#each exam.exam_type.topics}}
+            <div class="card card-body mb-2">
+                <a class="btn btn-primary btn-block mb-2" href="/topics/view_topic/{{_id}}">View topic</a>
+            </div>
+        {{else}}
+            <p>No topic found</p>
+        {{/each}}
+    </div>
+    <div class="panel-body">
+        {{#each exam.exam_questions}}
+            <div class="card card-body mb-2">
+                <a class="btn btn-primary btn-block mb-2" href="/questions/view_question/{{_id}}">View Question</a>
+            </div>
+        {{else}}
+            <p>No question found</p>
+        {{/each}}
+    </div>
+</div>
+<!--</div>-->

@@ -78,12 +78,13 @@ app.use(function(err, req, res, next) {
 app.use('/',indexRouter);
 app.use('/users',usersRouter);
 app.use('/jobs', jobsRouter);
-app.use('/topics', require('./routes/topics') );
-app.use('/exams', require('./controllers/exam_controller'));
 app.use('/questions', require('./routes/questions') );
+app.use('/topics', require('./routes/topics') );
+app.use('/exam_types', require('./routes/exam_types') );
+app.use('/exams', require('./routes/exam'));
+
 app.use('/users_ajax', require('./routes/ajax_routes/users_ajax'));
 //app.use('/hrs',hrsRouter);
-
 
 
 module.exports = app;
