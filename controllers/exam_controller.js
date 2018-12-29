@@ -30,8 +30,17 @@ async function getTopicByID(id,exam,callback)
         _id: id
     }).populate('question');
 
-    for (var i = 0; i < topic.questions.length; i++)
-        await getQuestionByID(topic.questions[i] ,exam,callback);
+    for (var i = 0; i < topic.questions.length; i++) {
+        if (i == 0)
+            await getQuestionByID(topic.questions[i], exam, callback);
+        else
+        {
+            var take = Math.floor(Math.random() * 3) + 1;
+            //console.log(take);
+            if(take == 1)
+                await getQuestionByID(topic.questions[i], exam, callback);
+        }
+    }
 }
 
 async function getExamType(exam,callback) {

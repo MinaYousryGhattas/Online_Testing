@@ -3,8 +3,10 @@
 <div class="panel panel-default">
     <div class="panel-heading">Exam</div>
     <div class="panel-body"><h1>{{exam.exam_type.type_name}}</h1> </div>
-    <div class="panel-body"><div class="panel-body" id="time_left"></div></div>
-    <div class="panel-body"> <progress value="0" max="30" id="progressBar"></progress></div>
+    <div class="panel-body" style="margin-left: 900px; background-color: aqua; padding-left:20px; padding-right: 20px; margin-right: 20px">
+        <div class="panel-body" id="time_left"></div>
+        <progress value="0" max="30" id="progressBar"></progress>
+    </div>
     <script type="text/javascript">
         var timeleft = 30;
         var downloadTimer = setInterval(function(){
@@ -23,8 +25,6 @@
                    <h5>  <b><input type="checkbox" name={{_id}} value="{{the_question}}"> {{the_question}}</b></h5>
                 </div>
                 <div class="panel-body">
-                    <input type="hidden" class="qID"  value={{_id}}>
-                    <p id="qi">{{_id}}</p>
                     <button class="ans" data-q="{{_id}}" type="button" value="{{wrong_answers.[0]}}">{{wrong_answers.[0]}}</button>
                     <button class="ans" data-q="{{_id}}" type="button" value="{{wrong_answers.[1]}}">{{wrong_answers.[1]}}</button>
                     <button class="ans" data-q="{{_id}}" type="button" value="{{right_answers.[0]}}">{{right_answers.[0]}}</button>

@@ -19,6 +19,7 @@ router.get('/:id',(req,res)=> {
     }).populate('exam_type')
         .populate('exam_questions')
         .then(exam => {
+            //exam.candidate = this user
             res.render('exam/start_exam', {
                 exam: exam
             })
@@ -119,7 +120,8 @@ router.post('/submit_exam/:id',(req, res)=>{
                      number_solved: number_solved,
                      number_marked: number_marked,
                      number_skipped: number_skipped,
-                     score: score
+                     score: score,
+                     total_score: exam.exam_questions.length
                  }));
                 /*    for (var i=0; i<exam.exam_questions.length; i++)
              {
