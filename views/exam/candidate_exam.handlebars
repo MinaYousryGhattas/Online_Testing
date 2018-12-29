@@ -1,8 +1,21 @@
 <!--<div class="row">-->
+<body>
 <div class="panel panel-default">
     <div class="panel-heading">Exam</div>
     <div class="panel-body"><h1>{{exam.exam_type.type_name}}</h1> </div>
-
+    <div class="panel-body"><div class="panel-body" id="time_left"></div></div>
+    <div class="panel-body"> <progress value="0" max="30" id="progressBar"></progress></div>
+    <script type="text/javascript">
+        var timeleft = 30;
+        var downloadTimer = setInterval(function(){
+            document.getElementById("time_left").innerHTML  = "Time left:  " + --timeleft;
+            document.getElementById("progressBar").value = 30 - timeleft;
+            if(timeleft <= 0)
+                clearInterval(downloadTimer);
+            else
+                console.log("time");
+        },1000);
+    </script>
     <form action="/exams/submit_exam/{{exam._id}}" method="post">
         <div class="panel-body">
             {{#each exam.exam_questions}}
@@ -10,15 +23,53 @@
                    <h5>  <b><input type="checkbox" name={{_id}} value="{{the_question}}"> {{the_question}}</b></h5>
                 </div>
                 <div class="panel-body">
-                    <p><input type="radio" name={{_id}} value="{{wrong_answers.[0]}}">{{wrong_answers.[0]}}</p>
-                    <p><input type="radio" name={{_id}} value="{{wrong_answers.[1]}}">{{wrong_answers.[1]}}</p>
-                    <p><input type="radio" name={{_id}} value="{{right_answers.[0]}}">{{right_answers.[0]}}</p>
-                    <p><input type="radio" name={{_id}} value="{{wrong_answers.[2]}}">{{wrong_answers.[2]}}</p>
+                    <input type="hidden" class="qID"  value={{_id}}>
+                    <p id="qi">{{_id}}</p>
+                    <button class="ans" data-q="{{_id}}" type="button" value="{{wrong_answers.[0]}}">{{wrong_answers.[0]}}</button>
+                    <button class="ans" data-q="{{_id}}" type="button" value="{{wrong_answers.[1]}}">{{wrong_answers.[1]}}</button>
+                    <button class="ans" data-q="{{_id}}" type="button" value="{{right_answers.[0]}}">{{right_answers.[0]}}</button>
+                    <button class="ans" data-q="{{_id}}" type="button" value="{{wrong_answers.[2]}}">{{wrong_answers.[2]}}</button>
                 </div>
             {{else}}
                 <p>No question found</p>
             {{/each}}
-            <button class="btn btn-primary btn-block mb-2" type="submit">Submit</button>
+            <button class="btn btn-primary btn-block mb-2" id="sub" type="submit">Submit</button>
         </div>
     </form>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(()=> {
+        $("button.ans").click(function() {
+
+            $.ajax({
+                data: {
+                    answer: $(this).val(),
+                    id: $(this).data("q")
+                },
+                url: '/exams/save_answer',
+                type: 'POST',
+                success: (data) => {
+                    if (data) {
+                        $(this)
+                                .css("background-color", "green")
+                    } else {
+                        $(this)
+                                .css("background-color", "blue")
+
+                    }
+                }
+            });
+        });
+
+        $('#time_left').bind('DOMNodeInserted DOMNodeRemoved', function() {
+            if (this.innerHTML == "Time left:  0") {
+                $(this).css("background-color", "red"),
+                $("#sub").click();
+            }
+        });
+    });
+
+</script>
+</body>

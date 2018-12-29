@@ -11,18 +11,17 @@ const Exam = mongoose.model('exam');
 const ExamType = mongoose.model('exam_type');
 var sleep = require('system-sleep');
 var sync = require('sync');
-var counter =  "0";
+var counter =  "01";
 //var exam_q = [question];
 async function getQuestionByID(id, exam, callback) {
     question = await Question.findOne({_id: id});
-    var quest = new Question({"the_question" : question.the_question, "candidateAnswer" : "????"+counter, "marked" : "false", "right_answers" : question.right_answers, "wrong_answers" : question.wrong_answers });
+    var quest = new Question({"the_question" : question.the_question, "candidateAnswer" : "???"+counter, "marked" : "false", "right_answers" : question.right_answers, "wrong_answers" : question.wrong_answers });
     quest.save();
-    new_q = await Question.findOne({"candidateAnswer" : "????"+counter});
+    new_q = await Question.findOne({"candidateAnswer" : "???"+counter});
 
     exam.exam_questions.push(new_q);
-    //exam_q.push(new_q);
     counter = counter + "0";
-    //console.log('length = ', exam.exam_questions.length);
+    //console.log('length = ', new_q);
 }
 
 async function getTopicByID(id,exam,callback)
