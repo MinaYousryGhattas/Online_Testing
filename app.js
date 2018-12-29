@@ -14,12 +14,13 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 var app = express();
 
-
 // database connection
 mongoose.Promise = global.Promise;
 var configDB = require('./config/database.js');
 mongoose.connect(configDB.url)
-    .then(() => console.log('MongoDB Connected...'))
+    .then(() => console.log('MongoDB Connected...')
+
+    )
     .catch(err => console.log(err));
 
 ///////////////////////////////
@@ -27,9 +28,8 @@ mongoose.connect(configDB.url)
 // view engine setup
 var indexRouter = require('./routes');
 var usersRouter = require('./routes/users');
-var jobsRouter = require('./routes/jobs');
-//var hrsRouter = require('./routes/hrs');
 
+var jobsRouter = require('./routes/jobs');
 ///////////////////////////////////////////////////////////
 
 app.engine('handlebars', exphbs({
@@ -85,6 +85,5 @@ app.use('/exams', require('./routes/exam'));
 
 app.use('/users_ajax', require('./routes/ajax_routes/users_ajax'));
 //app.use('/hrs',hrsRouter);
-
 
 module.exports = app;
