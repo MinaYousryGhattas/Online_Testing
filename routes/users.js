@@ -8,6 +8,8 @@ var session = require('express-session');
 var user_controller = require('./../controllers/user_controller');
 var router = express.Router();
 var fs = require("fs");
+var job = require('./../models/job');
+var Job = mongoose.model('job');
 // define user
 var user = require('./../models/user');
 const User = mongoose.model('user');
@@ -163,14 +165,52 @@ router.get('/get_cv_data', ensureAuthenticated, function(req, res){
   });
 });
 
+
 router.post('/upload_cv', ensureAuthenticated, upload_cv.single('cv'), (req,res,next)=>{
     User.findOne({username: req.user.username}).then(user =>{
-      user.cv_path = req.file.path;
+      user.cv_path = (req.file.path).substr(7);
       user.save().then(user =>{
         req.flash('success_message', 'CV uploaded');
         res.redirect('/users/user');})
     });
 });
 
+router.get('/approve/:id', function(req, res, next) {
 
+  Job.updateOne({"applicants._id":req.params.id},{$set: {
+      "applicants.$.status" : true}}
+      ).then(
+
+    res.redirect('/')
+    );
+});
+router.get('/disapprove/:id', function(req, res, next) {
+
+  Job.updateOne({"applicants._id":req.params.id},{$pull:
+            {applicants: {_id: req.params.id}}}
+  ).then(
+
+      res.redirect('/')
+  );
+});
+router.get('/exams',function (req, res) {
+  res.render('exam');
+});
+router.post('/exams',function (req, res) {
+  var exams=[];
+  if(req.body.java){
+    exams.push("java");
+  }
+  if(req.body.IQ){
+    exams.push("Iq");
+  }
+  if(req.body.Python){
+    exams.push("python");
+  }
+  if(req.body.English){
+    exams.push("english");
+  }
+
+  res.redirect('/')
+});
 module.exports = router;

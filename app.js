@@ -33,7 +33,12 @@ var jobsRouter = require('./routes/jobs');
 ///////////////////////////////////////////////////////////
 
 app.engine('handlebars', exphbs({
-  defaultLayout: 'main'
+  defaultLayout: 'main',
+  helpers:{
+    equals:function (val1,val2) {
+      return val1==val2
+    }
+  },
 }));
 app.set('view engine', 'handlebars');
 ///////////////////////////////////////////////////////
@@ -71,6 +76,7 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.flash('error');
   res.locals.success_message = req.flash('success_message');
   res.locals.error_message = req.flash('error_message');
+  res.locals.mine = req.flash("mine");
   res.locals.user = req.user || null;
   next();
 });
@@ -84,3 +90,4 @@ app.use('/questions', require('./routes/questions') );
 app.use('/users_ajax', require('./routes/ajax_routes/users_ajax'));
 
 module.exports = app;
+
