@@ -42,6 +42,7 @@ router.get('/:id',ensureAuthenticated,(req,res)=> {
                             res.render('exam/start_exam', {
                                 exam: exam
                             })
+
                         }
                         else
                         {
