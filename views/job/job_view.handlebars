@@ -1,5 +1,6 @@
 <!--<div class="row">-->
-    <div class="panel panel-default">
+
+<div class="panel panel-default">
         <div class="panel-heading">Title</div>
         <div class="panel-body">{{job.title}}</div>
     </div>
@@ -9,10 +10,50 @@
         <div class="panel-heading">Description</div>
         <div class="panel-body">{{job.description}}</div>
     </div>
-{{#if user.ishr}}
-{{else}}
-    <form action="/jobs/apply_form/{{job._id}}" method="get">
+
+    {{#if user.ishr}}
+
+
+
+
+            {{#if mine}}
+
+                {{#each job.applicants}}
+                    <div class="card card-body mb-2">
+                        <h4>{{username}}</h4>
+                        <a class="btn btn-primary btn-block mb-2" href="/{{cv}}">check user cv</a>
+                         {{#if (equals status false)}}
+                             <form action="/users/approve/{{_id}}" method="get">
+                                 <button type="submit" class="btn btn-primary">approve</button>
+                             </form>
+                             <form action="/users/disapprove/{{_id}}" method="get">
+                                 <button type="submit" class="btn btn-primary">disapprove</button>
+                             </form>
+
+                         {{/if}}
+                        {{#if (equals status true)}}
+                            <form action="/users/exams" method="get">
+                                <button type="submit" class="btn btn-primary">choose exams</button>
+                            </form>
+                        {{/if}}
+
+                    </div>
+
+                {{else}}
+                    <p>No applicant </p>
+                {{/each}}
+            {{/if}}
+
+
+
+
+    {{/if}}
+    {{#if user.cv_path}}
+        <form action="/jobs/apply_form/{{job._id}}" method="get">
             <button type="submit" class="btn btn-primary">Apply</button>
-    </form>
-{{/if}}
+        </form>
+    {{/if}}
+
+
+
 <!--</div>-->

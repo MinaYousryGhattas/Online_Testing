@@ -3,6 +3,9 @@ var mongoose = require('mongoose');
 var router = express.Router();
 var job = require('./../models/job');
 const Job = mongoose.model('job');
+var uer = require('./../models/user');
+const User = mongoose.model('user');
+var fs =require("fs");
 const uuidv1 = require('uuid/v1');
 uuidv1();
 var {ensureAuthenticated} = require('./../config/auth');
@@ -38,9 +41,12 @@ router.post('/apply_form', ensureAuthenticated,upload_cv.single('cv'), (req,res)
                     req.flash('error_message', 'You already applied');
                     res.redirect('/');
                 }else {
+                    var path=(req.file.path).substr(7);
                     job.applicants.push({
+                        username:req.user.name,
                         user: req.user._id,
-                        cv: req.file.path
+                        cv: path,
+                        status:false
                     });
                     job.save().then(job=>{
                        req.flash('success_message','Done');
@@ -74,7 +80,8 @@ router.post('/create_job', ensureAuthenticated, (req,res)=>{
     }
     var new_job = new Job({
         title: req.body.title,
-        description: req.body.description
+        description: req.body.description,
+        owner:req.user._id
     });
     new_job.save().then(job=>{
         req.flash("success_message", "Job is created successfully");
@@ -89,14 +96,42 @@ router.post('/create_job', ensureAuthenticated, (req,res)=>{
 });
 
 
-router.get('/view/:id',(req,res)=>{
+router.get('/view/:id',async (req,res)=>{
     Job.findOne({
         _id: req.params.id
     }).then(job =>{
-        res.render('job/job_view',{
-            job: job
-        })
+
+        if (req.user.id == job.owner)
+        {
+
+            var  mine_value="mine";
+            res.render('job/job_view',{
+                job: job,
+                mine: mine_value
+            })
+
+        }
+
+        else{
+            res.render('job/job_view',{
+                job: job
+
+            })
+        }
+
+    }).catch(err=>{
+        req.flash('error_message', "user doesn't existed");
+        res.render('login');
     })
+});
+
+router.get('/ownerjobs', function(req, res, next) {
+    Job.find({owner:req.user._id}).then(jobs => {
+
+        res.render('job/hr_jobs', {
+            jobs: jobs
+        });
+    });
 });
 
 module.exports = router;

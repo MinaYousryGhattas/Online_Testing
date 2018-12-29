@@ -20,10 +20,11 @@
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink">{{user.name}}</a>
                         <div class="dropdown-menu">
                             {{#if user.ishr}}
-                                <a href="/jobs/create_job" class="dropdown-item">Post Job</a>
+                                <a href="/" class="dropdown-item">Post Job</a>
                                 <a href="/exam/add" class="dropdown-item">Add Exam</a>
+                                <a href="/jobs/ownerjobs" class="dropdown-item">show my jobs</a>
                             {{else}}
-                                <a href="/jobs/job_view" class="dropdown-item">Posted Jobs</a>
+                                <a href="/" class="dropdown-item">Posted Jobs</a>
                                 <a href="/exam/" class="dropdown-item">Show Exams</a>
 
                             {{/if}}
