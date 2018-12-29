@@ -37,6 +37,7 @@ router.get('/:id',ensureAuthenticated,(req,res)=> {
                     }
                     else
                     {
+
                         if (exam.exam_questions[0].candidateAnswer[0] == "?")
                         {
                             res.render('exam/start_exam', {
