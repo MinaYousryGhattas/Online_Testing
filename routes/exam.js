@@ -9,40 +9,76 @@ var question = require('./../models/question');
 const Question = mongoose.model('question');
 const Exam = mongoose.model('exam');
 const ExamType = mongoose.model('exam_type');
-var sleep = require('system-sleep');
 var exam_controller = require('./../controllers/exam_controller');
-var Timer = require('time-counter');
+var {ensureAuthenticated} = require('./../config/auth');
 
-router.get('/:id',(req,res)=> {
+router.get('/:id',ensureAuthenticated,(req,res)=> {
     Exam.findOne({
         _id: req.params.id
     }).populate('exam_type')
         .populate('exam_questions')
-        .then(exam => {
-            //exam.candidate = this user
-            res.render('exam/start_exam', {
-                exam: exam
-            })
+        .then(ex => {
+            Exam.findOne({
+                exam_type: ex.exam_type._id,
+                candidate: req.user._id
+            }).populate('exam_type')
+                .populate('exam_questions')
+                .then(exam => {
+                    if(exam == null)
+                    {
+                        let exam = new Exam({"exam_type": ex.exam_type, "candidate": req.user._id});
+                        exam_controller.generateExam(exam, function (error, result)
+                        {
+                            exam.save().then(
+                                res.render('exam/start_exam', {
+                                    exam: exam
+                                }))
+                        })
+                    }
+                    else
+                    {
+
+                        if (exam.exam_questions[0].candidateAnswer[0] == "?")
+                        {
+                            res.render('exam/start_exam', {
+                                exam: exam
+                            })
+
+                        }
+                        else
+                        {
+                            res.render('exam/solved_exam', {
+                                exam: exam,
+                                total_score: exam.exam_questions.length
+                            })
+                        }
+                    }
+                })
         })
 });
 
-router.get('/start/:id',(req, res)=>{
+router.get('/start/:id',ensureAuthenticated,(req, res)=>{
 
     Exam.findOne({
-        _id: req.params.id
+        _id: req.params.id,
+        candidate: req.user._id
     }).populate('exam_type')
         .populate('exam_questions')
         .then(exam=> {
-            exam.exam_questions = [];
-           // console.log("exam from db: ", exam);
-            exam_controller.generateExam(exam, function (error, result)
-            {
-                exam.save().then(
-                   // console.log(exam),
-                    res.render('exam/candidate_exam', {
-                        exam: exam
-                    }))
-            })
+           //  exam.exam_questions = [];
+           // // console.log("exam from db: ", exam);
+           //  exam_controller.generateExam(exam, function (error, result)
+           //  {
+           //      exam.save().then(
+           //         // console.log(exam),
+           //          res.render('exam/candidate_exam', {
+           //              exam: exam
+           //          }))
+           //  })
+            console.log("found = ", exam);
+            res.render('exam/candidate_exam', {
+                    exam: exam
+                })
         })
 });
 
@@ -54,11 +90,8 @@ router.post('/save_answer',(req, res)=>{
     Question.findOne({
         _id: qID
     }).then(q => {
-            //console.log("ans = ", ans);
-            //console.log("q = ", q);
             q.candidateAnswer = ans;
             q.save().then(
-                //console.log("q = ", q),
                 res.send(true)
             );
 
