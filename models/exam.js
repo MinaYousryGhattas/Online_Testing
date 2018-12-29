@@ -8,10 +8,10 @@ const ExamSchema = new schema({
             type: schema.Types.ObjectId,
             ref: 'exam_type'
         },
-        candidate: [{
+        candidate: {
             type: schema.Types.ObjectId,
             ref: 'user'
-        }],
+        },
         exam_questions: [{
             type: schema.Types.ObjectId,
             ref: 'question'
