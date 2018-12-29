@@ -1,3 +1,5 @@
+//import {Double} from "mongodb";
+
 let mongoose = require('mongoose');
 let schema = mongoose.Schema;
 
@@ -6,10 +8,18 @@ const ExamSchema = new schema({
             type: schema.Types.ObjectId,
             ref: 'exam_type'
         },
+        candidate: [{
+            type: schema.Types.ObjectId,
+            ref: 'user'
+        }],
         exam_questions: [{
             type: schema.Types.ObjectId,
-            ref: 'Question'
-        }]
+            ref: 'question'
+        }],
+        score:{
+            type: Number,
+            required: false
+        }
     },
     {usePushEach: true},
     {usePullEach: true}
