@@ -1,5 +1,6 @@
 var auth = require("./../config/auth");
-
+var email_controller=require("./../controllers/email_controller");
+var exam_controller=require("./../controllers/exam_controller");
 var express = require('express');
 var passport = require('passport');
 var mongoose = require('mongoose');
@@ -198,10 +199,11 @@ router.get('/disapprove/:id', function(req, res, next) {
       res.redirect('/')
   );
 });
-router.get('/exams',function (req, res) {
+router.get('/exams/:user/:id',function (req, res) {
   res.render('exam');
 });
 router.post('/exams',function (req, res) {
+  console.log(req.params.id+" "+req.params.user)
   var exams=[];
   if(req.body.java){
     exams.push("java");
@@ -215,7 +217,12 @@ router.post('/exams',function (req, res) {
   if(req.body.English){
     exams.push("english");
   }
-
+  var links=exam_controller.getExamsLinks(exams,req.params.id);
+  var email="";
+  User.findOne({id:req.params.user}).then(user => {
+    email=user.email;
+  });
+  email_controller.send_exams_to_candidate(links,email);
   res.redirect('/')
 });
 module.exports = router;
