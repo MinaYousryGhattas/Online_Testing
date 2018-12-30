@@ -65,7 +65,7 @@ router.get('/start/:id',ensureAuthenticated,(req, res)=>{
     }).populate('exam_type')
         .populate('exam_questions')
         .then(exam=> {
-            console.log("found = ", exam);
+           // console.log("found = ", exam);
             res.render('exam/candidate_exam', {
                     exam: exam
                 })

@@ -11,15 +11,16 @@ const Exam = mongoose.model('exam');
 const Exam_type = mongoose.model('exam_type');
 var counter =  "01";
 
-
-function getExamsLinks(types)
-{
+//types array of string , job is the id of applied job object
+async function getExamsLinks(types, job) {
     let links = [];
-    for (var i=0; i<types.length; i++)
-    {
-        var ex_type = Exam_type.find({type_name: types[i]});
-        var ex = Exam.find({exam_type: ex_type._id, candidate: null});
-        var link = "http://localhost:3000/exams/"+ ex._id;
+    for (var i = 0; i < types.length; i++) {
+        var ex_type = await ExamType.findOne({"type_name": types[i]});
+        var ex = await Exam.findOne({"exam_type": ex_type._id, "candidate": null}).populate("exam_type");
+        let new_exam = new Exam({"exam_type": ex.exam_type, "candidate": null, "job": job});
+        await new_exam.save();
+        var job_exam = await Exam.findOne({"exam_type": ex.exam_type, "candidate": null, "job": job});
+        var link = "http://localhost:3000/exams/" + job_exam._id;
         links.push(link);
     }
 }
