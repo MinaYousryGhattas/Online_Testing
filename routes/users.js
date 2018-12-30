@@ -200,9 +200,14 @@ router.get('/disapprove/:id', function(req, res, next) {
   );
 });
 router.get('/exams/:user',function (req, res) {
-  res.render('exam');
+  res.render('exam',{
+      job:req.job,
+      userid:req.params.user
+
+    });
 });
-router.post('/exams',function (req, res) {
+router.post('/exams/:user',function (req, res) {
+    console.log(req.params.id+" "+req.params.user);
   var exams=[];
   if(req.body.java){
     exams.push("java");
@@ -216,9 +221,9 @@ router.post('/exams',function (req, res) {
   if(req.body.English){
     exams.push("english");
   }
-  var links=exam_controller.getExamsLinks(exams,req.job_id);
+  var links=exam_controller.getExamsLinks(exams,req.job._id);
   var email="";
-  User.findOne({id:req.params.user}).then(user => {
+  User.findOne({id:req.body.user}).then(user => {
     email=user.email;
   });
   email_controller.send_exams_to_candidate(links,email);
