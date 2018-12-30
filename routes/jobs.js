@@ -34,9 +34,9 @@ router.get('/apply_form/:id', ensureAuthenticated, (req,res)=>{
 router.post('/apply_form', ensureAuthenticated,upload_cv.single('cv'), (req,res)=>{
     Job.findOne({_id: req.body._id})
         .populate('applicants.user')
-        .then(job=>{
+        .then(async job=>{
             if (job){
-                check_user_applied = job.applicants.find(applicant => applicant.user._id == req.user.id);
+                check_user_applied =  await job.applicants.find(applicant => applicant.user._id == req.user.id);
                 if (check_user_applied){
                     req.flash('error_message', 'You already applied');
                     res.redirect('/');
@@ -96,7 +96,7 @@ router.post('/create_job', ensureAuthenticated, (req,res)=>{
 });
 
 
-router.get('/view/:id',async (req,res)=>{
+router.get('/view/:id',ensureAuthenticated, async (req,res)=>{
     Job.findOne({
         _id: req.params.id
     }).then(job =>{
