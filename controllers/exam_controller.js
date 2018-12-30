@@ -8,11 +8,23 @@ var exam_type = require('./../models/exam_type')
 var question = require('./../models/question');
 const Question = mongoose.model('question');
 const Exam = mongoose.model('exam');
-const ExamType = mongoose.model('exam_type');
-var sleep = require('system-sleep');
-var sync = require('sync');
+const Exam_type = mongoose.model('exam_type');
 var counter =  "01";
-//var exam_q = [question];
+
+//types array of string , job is the id of applied job object
+async function getExamsLinks(types, job) {
+    let links = [];
+    for (var i = 0; i < types.length; i++) {
+        var ex_type = await ExamType.findOne({"type_name": types[i]});
+        var ex = await Exam.findOne({"exam_type": ex_type._id, "candidate": null}).populate("exam_type");
+        let new_exam = new Exam({"exam_type": ex.exam_type, "candidate": null, "job": job});
+        await new_exam.save();
+        var job_exam = await Exam.findOne({"exam_type": ex.exam_type, "candidate": null, "job": job});
+        var link = "http://localhost:3000/exams/" + job_exam._id;
+        links.push(link);
+    }
+}
+
 async function getQuestionByID(id, exam, callback) {
     question = await Question.findOne({_id: id});
     var quest = new Question({"the_question" : question.the_question, "candidateAnswer" : "???"+counter, "marked" : "false", "right_answers" : question.right_answers, "wrong_answers" : question.wrong_answers });

@@ -19,6 +19,10 @@ const ExamSchema = new schema({
         score:{
             type: Number,
             required: false
+        },
+        job:{
+            type: schema.Types.ObjectId,
+            ref: 'job'
         }
     },
     {usePushEach: true},
