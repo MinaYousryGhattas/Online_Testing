@@ -43,6 +43,11 @@ module.exports = {
         this.send_email(exam.candidate.email,{
             subject: subject,
             body: body
-            },callback)
+            },callback);
+        this.send_email(exam.job.owner.email,{
+            subject: subject,
+                body: body
+        },callback);
+
     }
 };
