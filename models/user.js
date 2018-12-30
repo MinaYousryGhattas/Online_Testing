@@ -30,6 +30,11 @@ const user_schema = new schema({
         type: String,
         required: false
 
+    },
+    status: {
+        type: Boolean,
+        required: false
+
     }
 
 });

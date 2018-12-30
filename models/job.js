@@ -10,9 +10,16 @@ const job_schema = new schema({
         type: String,
         required: true
     },
+    owner:{
+        type: schema.Types.ObjectId, ref: 'user'
+    },
     applicants: {
         type: [
             {
+                username: {
+                    type: String,
+                    required: true
+                },
                 user : { type: schema.Types.ObjectId, ref: 'user' },
                 cv  : {},
                 status: { type: Boolean, default: false},

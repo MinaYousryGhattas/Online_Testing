@@ -44,7 +44,5 @@ module.exports = {
             subject: subject,
             body: body
             },callback)
-
-
     }
 };
