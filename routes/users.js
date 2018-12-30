@@ -207,7 +207,7 @@ router.get('/exams/:user',function (req, res) {
     });
 });
 router.post('/exams/:user',function (req, res) {
-    console.log(req.params.id+" "+req.params.user);
+    console.log(req.params.user);
   var exams=[];
   if(req.body.java){
     exams.push("java");
@@ -221,12 +221,19 @@ router.post('/exams/:user',function (req, res) {
   if(req.body.English){
     exams.push("english");
   }
-  var links=exam_controller.getExamsLinks(exams,req.job._id);
-  var email="";
-  User.findOne({id:req.body.user}).then(user => {
-    email=user.email;
-  });
-  email_controller.send_exams_to_candidate(links,email);
-  res.redirect('/')
+    var email="";
+    User.findOne({_id:req.params.user}).then(user => {
+        console.log("!",user.email);
+
+        if(user)
+        {
+            var links=exam_controller.getExamsLinks(exams,req.job._id);
+
+
+            email_controller.send_exams_to_candidate(links,user.email);
+            }
+    });
+    res.redirect('/')
+
 });
 module.exports = router;
