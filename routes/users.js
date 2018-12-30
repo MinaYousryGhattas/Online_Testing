@@ -199,11 +199,10 @@ router.get('/disapprove/:id', function(req, res, next) {
       res.redirect('/')
   );
 });
-router.get('/exams/:user/:id',function (req, res) {
+router.get('/exams/:user',function (req, res) {
   res.render('exam');
 });
 router.post('/exams',function (req, res) {
-  console.log(req.params.id+" "+req.params.user)
   var exams=[];
   if(req.body.java){
     exams.push("java");
@@ -217,7 +216,7 @@ router.post('/exams',function (req, res) {
   if(req.body.English){
     exams.push("english");
   }
-  var links=exam_controller.getExamsLinks(exams,req.params.id);
+  var links=exam_controller.getExamsLinks(exams,req.job_id);
   var email="";
   User.findOne({id:req.params.user}).then(user => {
     email=user.email;

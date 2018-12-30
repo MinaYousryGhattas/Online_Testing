@@ -8,7 +8,7 @@ var exam_type = require('./../models/exam_type')
 var question = require('./../models/question');
 const Question = mongoose.model('question');
 const Exam = mongoose.model('exam');
-const Exam_type = mongoose.model('exam_type');
+const ExamType = mongoose.model('exam_type');
 var counter =  "01";
 
 
@@ -69,9 +69,12 @@ module.exports = {
     },
     //types array of string , job is the id of applied job object
     getExamsLinks: async function (types, job) {
+        console.log("types: ", types, "job: ", job);
         let links = [];
         for (var i = 0; i < types.length; i++) {
-            var ex_type = await ExamType.findOne({"type_name": types[i]});
+            var type = types[i];
+            console.log(type);
+            var ex_type = await ExamType.findOne({"type_name": type });
             var ex = await Exam.findOne({"exam_type": ex_type._id, "candidate": null}).populate("exam_type");
             let new_exam = new Exam({"exam_type": ex.exam_type, "candidate": null, "job": job});
             await new_exam.save();
