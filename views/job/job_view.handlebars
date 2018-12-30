@@ -32,7 +32,7 @@
 
                          {{/if}}
                         {{#if (equals status true)}}
-                            <form action="/users/exams" method="get">
+                            <form action="/users/exams/{{user}}/{{job._id}}" method="get">
                                 <button type="submit" class="btn btn-primary">choose exams</button>
                             </form>
                         {{/if}}

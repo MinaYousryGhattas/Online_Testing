@@ -52,6 +52,20 @@ module.exports = {
             body: body
         }, callback);
 
+    },
+
+    send_exams_to_candidate: async function (links,candidate, callback) {
+        var subject = candidate.username + ' candidate exams';
+        var body = "";
+        for (var i = 0; i < types.length; i++) {
+            body.concat("Exam "+i+"link is here"+links[i]+"\n");
+        }
+
+        this.send_email(candidate.email, {
+            subject: subject,
+            body: body
+        }, callback);
+
     }
 
 };
