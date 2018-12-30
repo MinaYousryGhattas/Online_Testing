@@ -22,7 +22,8 @@ router.get('/:id',ensureAuthenticated,(req,res)=> {
         .then(ex => {
             Exam.findOne({
                 exam_type: ex.exam_type._id,
-                candidate: req.user._id
+                candidate: req.user._id,
+                job: ex.job._id
             }).populate('exam_type')
                 .populate('exam_questions')
                 .then(exam => {
