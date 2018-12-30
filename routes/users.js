@@ -199,15 +199,15 @@ router.get('/disapprove/:id', function(req, res, next) {
       res.redirect('/')
   );
 });
-router.get('/exams/:user',function (req, res) {
+router.get('/exams/:user/:job',function (req, res) {
   res.render('exam',{
-      job:req.job,
+      job:req.params.job,
       userid:req.params.user
 
     });
 });
-router.post('/exams/:user',function (req, res) {
-    console.log(req.params.id+" "+req.params.user);
+router.post('/exams/:user/:j',function (req, res) {
+  //console.log(req.params.id+" "+req.params.user);
   var exams=[];
   if(req.body.java){
     exams.push("java");
@@ -221,12 +221,17 @@ router.post('/exams/:user',function (req, res) {
   if(req.body.English){
     exams.push("english");
   }
-  var links=exam_controller.getExamsLinks(exams,req.job._id);
-  var email="";
-  User.findOne({id:req.body.user}).then(user => {
-    email=user.email;
+  User.findOne({_id:req.params.user}).then(async user => {
+    console.log("!", user.email);
+
+    if (user) {
+      var job = await Job.findOne({"applicants._id": req.params.j});
+      var links = await exam_controller.getExamsLinks(exams, job._id);
+      //console.log("links = ", links, "email = ", user.email);
+      email_controller.send_exams_to_candidate(links, user);
+    }
+    res.redirect('/');
   });
-  email_controller.send_exams_to_candidate(links,email);
-  res.redirect('/')
+
 });
 module.exports = router;

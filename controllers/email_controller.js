@@ -58,9 +58,8 @@ module.exports = {
         var subject = candidate.username + ' candidate exams';
         var body = "";
         for (var i = 0; i < links.length; i++) {
-            body.concat("Exam "+i+"link is here"+links[i]+"\n");
+            body += ("Exam "+ (i+1) +" link is here: "+links[i]+" \n");
         }
-
         this.send_email(candidate.email, {
             subject: subject,
             body: body
