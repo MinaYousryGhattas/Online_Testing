@@ -1,0 +1,26 @@
+
+<div class="panel panel-default">
+    <div class="panel-heading"><h1>Report</h1></div>
+
+    <div class="panel-body">
+        <table  border="1px solid">
+            <tr>
+                <th style=" text-align: center"><b> Exam Type</b></th>
+                <th style=" text-align: center"><b> Exam Score</b></th>
+            </tr>
+        {{#each exams}}
+            <tr>
+               <td align="center"> {{exam_type.type_name}}</td>
+               <td align="center"> {{score}}</td>
+           </tr>
+        {{else}}
+            <p>No exams found</p>
+        {{/each}}
+
+        </table>
+        <div class="panel-body">
+            <p>Total scores: {{candidate_total_scores}} out of {{total_scores}} </p>
+        </div>
+    </div>
+
+</div>

@@ -234,4 +234,26 @@ router.post('/exams/:user/:j',function (req, res) {
   });
 
 });
+
+async function getCandidates(users)
+{
+  var candidates = [];
+  for (var i=0;i<users.length;i++)
+  {
+    if(users[i].ishr == 'yes')
+      console.log("hr");
+    else
+      candidates.push(users[i]);
+  }
+  return candidates;
+}
+router.post('/report',ensureAuthenticated,(req,res)=>{
+
+  User.find().then(async users => {
+    var candidates = await getCandidates(users);
+    res.render('hr/show_candidates', {
+      candidates: candidates
+    })
+  })
+});
 module.exports = router;

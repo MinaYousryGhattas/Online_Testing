@@ -17,7 +17,6 @@ module.exports = {
             }
         });
 
-
         var mailOptions = {
             from: 'onlinetestingserver@gmail.com',
             to: _to,
