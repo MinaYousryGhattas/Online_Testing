@@ -23,6 +23,7 @@ async function getExamsLinks(types, job) {
         var link = "http://localhost:3000/exams/" + job_exam._id;
         links.push(link);
     }
+    return links;
 }
 
 async function getQuestionByID(id, exam, callback) {
