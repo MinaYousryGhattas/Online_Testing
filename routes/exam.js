@@ -59,7 +59,6 @@ router.get('/:id',ensureAuthenticated,(req,res)=> {
 });
 
 router.get('/start/:id',ensureAuthenticated,(req, res)=>{
-
     Exam.findOne({
         _id: req.params.id,
         candidate: req.user._id
