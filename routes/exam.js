@@ -10,6 +10,7 @@ const Question = mongoose.model('question');
 const Exam = mongoose.model('exam');
 const ExamType = mongoose.model('exam_type');
 var exam_controller = require('./../controllers/exam_controller');
+var email_controller = require('./../controllers/email_controller');
 var {ensureAuthenticated} = require('./../config/auth');
 
 
@@ -95,7 +96,7 @@ router.post('/submit_exam/:id',(req, res)=>{
     Exam.findOne({
         _id: req.params.id
     }).populate('exam_type')
-        .populate('exam_questions')
+        .populate('exam_questions').populate('candidate').populate("job")
         .then(exam=> {
              for (var i=0; i<exam.exam_questions.length; i++)
              {
@@ -132,6 +133,9 @@ router.post('/submit_exam/:id',(req, res)=>{
              }
              exam.score = score;
              exam.save().then(
+                 email_controller.send_exam_result_to_hr_and_candidate(exam, (error,info)=>{
+                     console.log(info)
+                 }),
                  res.render('exam/candidate_exam_result', {
                      exam: exam,
                      number_solved: number_solved,
