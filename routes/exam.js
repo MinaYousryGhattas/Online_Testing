@@ -96,7 +96,7 @@ router.post('/submit_exam/:id',(req, res)=>{
     Exam.findOne({
         _id: req.params.id
     }).populate('exam_type')
-        .populate('exam_questions').populate('candidate').populate("job")
+        .populate('exam_questions').populate('candidate').populate("job").populate("owner")
         .then(exam=> {
              for (var i=0; i<exam.exam_questions.length; i++)
              {
