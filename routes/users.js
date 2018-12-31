@@ -170,7 +170,8 @@ router.get('/view_cv', ensureAuthenticated,function(req, res){
 
 
 router.get('/get_cv_data', ensureAuthenticated, function(req, res){
-  var tempFile=req.user.cv_path;
+  console.log(req.user.cv_path);
+  var tempFile="public/"+req.user.cv_path;
   fs.readFile(tempFile, function (err,data){
     res.contentType("application/pdf");
     res.send(data);
