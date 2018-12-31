@@ -45,7 +45,6 @@ router.get('/:id',ensureAuthenticated,(req,res)=> {
                             res.render('exam/start_exam', {
                                 exam: exam
                             })
-
                         }
                         else
                         {
@@ -145,6 +144,30 @@ router.post('/submit_exam/:id',(req, res)=>{
                      total_score: exam.exam_questions.length
                  }));
         })
+});
+
+function getTotalScores(exams)
+{
+    var total_scores = 0;
+    var candidate_total_scores = 0;
+    for (var i=0;i<exams.length;i++)
+    {
+        candidate_total_scores += exams[i].score;
+        total_scores += exams[i].exam_questions.length;
+    }
+    return {candidate_total_scores,total_scores};
+}
+router.get('/view_candidate_report/:id',ensureAuthenticated,(req,res)=> {
+    Exam.find({
+        candidate: req.params.id
+    }).populate('exam_type').populate('exam_questions').then(async exams => {
+        let scores = await getTotalScores(exams);
+        res.render('exam/exam_report', {
+            exams: exams,
+            total_scores: scores.total_scores,
+            candidate_total_scores: scores.candidate_total_scores
+        })
+    })
 });
 
 module.exports = router;
