@@ -19,6 +19,7 @@
     "hrs": "^1.0.0",
     "http-errors": "^1.6.3",
     "jquery": "^3.3.1",
+    "jquery-ui": "^1.12.1",
     "method-override": "^3.0.0",
     "mongodb": "^3.1.10",
     "mongoose": "^5.4.0",

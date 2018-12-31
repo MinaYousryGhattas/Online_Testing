@@ -1,3 +1,18 @@
+<style type="text/css">
+    #search{
+        width: 130px;
+        -webkit-transition: width 0.4s ease-in-out;
+        transition: width 0.4s ease-in-out;
+    }
+
+    /* When the input field gets focus, change its width to 100% */
+    #search:focus {
+        width: 300%;
+    }
+</style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="/javascripts/search_ajax.js"></script>
 <nav class="navbar navbar-expand-sm navbar-dark bg-primary mb-3">
     <div class="container">
         <a class="navbar-brand" href="/">Online TESTING</a>
@@ -5,16 +20,17 @@
                 aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/about">About</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav ml-auto">
+        <div class="collapse navbar-collapse" id="navbarNav"  >
+            {{#if user.ishr}}
+                <ul class="navbar-nav ml-auto">
+                    <form autocomplete="off" action="/search" method="post">
+                        <div class="form-group autocomplete">
+                            <input type="text" name="search" id="search" placeholder="Search.."class="form-control">
+                        </div>
+                    </form>
+                </ul>
+            {{/if}}
+            <ul class="navbar-nav ml-auto" style="float: right">
                 {{#if user}}
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink">{{user.name}}</a>
@@ -42,6 +58,11 @@
                         <a href="/users/register" class="nav-link">Register</a>
                     </li>
                 {{/if}}
+            </ul>
+            <ul class="navbar-nav" style="float: right">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
             </ul>
         </div>
     </div>

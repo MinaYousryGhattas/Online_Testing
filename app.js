@@ -88,7 +88,7 @@ app.use('/questions', require('./routes/questions') );
 app.use('/topics', require('./routes/topics') );
 app.use('/exam_types', require('./routes/exam_types') );
 app.use('/exams', require('./routes/exam'));
-
+app.use('/search', require('./routes/search'));
 app.use('/users_ajax', require('./routes/ajax_routes/users_ajax'));
 //app.use('/hrs',hrsRouter);
 
