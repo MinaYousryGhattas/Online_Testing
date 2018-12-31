@@ -40,6 +40,11 @@ router.post('/register', (req, res) => {
   if(req.body.password.length < 8){
     errors.push({text:'Password must be at least 8 characters'});
   }
+  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  if (!req.body.email.match(re)){
+    errors.push({text:'Please write valid email'});
+  }
+
 
   if(errors.length > 0){
     res.render('register', {
@@ -51,6 +56,7 @@ router.post('/register', (req, res) => {
       password: req.body.password,
       password1: req.body.password1
     });
+    return;
   } else {
     User.findOne( { $or : [ {email: req.body.email}, {username: req.body.username} ] })
         .then(user => {

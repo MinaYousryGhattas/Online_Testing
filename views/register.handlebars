@@ -1,8 +1,10 @@
+<script type="text/javascript" src="/javascripts/validation.js"></script>
 <div class="row">
+
     <div class="card card-body">
 
         <h3>Registration form </h3>
-        <form action="/users/register" method="post">
+        <form action="/users/register" onsubmit="return validate()" method="post">
             <div class="form-group">
                 <label>Username</label>
                 <input type="text" id="username" name="username" value="{{username}}" class="form-control" required>
@@ -80,6 +82,17 @@
                 }
             });
         });
+        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        $('#email').donetyping(()=>{
+            if (!$('#email').val().match(re)){
+                $('#email').css("border","1px solid red")
+            }
+            else{
+                $('#email').css("border","1px solid green")
+            }
+
+        },1);
+
         $('#password').donetyping(()=>{
             if ($('#password').val().length < 8){
                 $('#password').css("border","1px solid red")
