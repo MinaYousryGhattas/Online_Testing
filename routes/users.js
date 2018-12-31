@@ -90,9 +90,9 @@ router.post('/register', (req, res) => {
                     req.flash("success_message");
                     console.log(req.user.ishr);
                     if(newUser.ishr=="yes")
-                      res.render('hr');
+                      res.redirect('/users/hr');
                     else
-                     res.render('user');
+                      res.redirect('/users/user');
                   })
 
                 });
@@ -219,13 +219,13 @@ router.post('/exams/:user/:j',function (req, res) {
   if(req.body.java){
     exams.push("java");
   }
-  if(req.body.IQ){
-    exams.push("Iq");
+  if(req.body.iq){
+    exams.push("iq");
   }
-  if(req.body.Python){
+  if(req.body.python){
     exams.push("python");
   }
-  if(req.body.English){
+  if(req.body.english){
     exams.push("english");
   }
   User.findOne({_id:req.params.user}).then(async user => {
@@ -234,7 +234,7 @@ router.post('/exams/:user/:j',function (req, res) {
     if (user) {
       var job = await Job.findOne({"applicants._id": req.params.j});
       var links = await exam_controller.getExamsLinks(exams, job._id);
-      //console.log("links = ", links, "email = ", user.email);
+      console.log("links = ", links, "email = ", user.email);
       email_controller.send_exams_to_candidate(links, user);
     }
     res.redirect('/');

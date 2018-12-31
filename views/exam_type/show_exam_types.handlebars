@@ -1,16 +1,24 @@
 <div class="card card-body">
     <h3 class="test-muted">Exam Types</h3>
     <br/>
-    <div class="card-deck mb-3">
+    <div class="panel-body">
+        <table  border="1px solid">
+            <tr>
+                <th style=" text-align: center"><b> Exam Type</b></th>
+                <th style=" text-align: center"><b> View</b></th>
+            </tr>
         {{#each exam_types}}
-            <div class="card card-body mb-2">
-                <h4>{{type_name}}</h4>
-                <a class="btn btn-primary btn-block mb-2" href="/exam_types/view_exam_type/{{_id}}">View</a>
-            </div>
+            <tr>
+                <td align="center"> <h4>{{type_name}}</h4></td>
+                <td align="center">  <a class="btn btn-primary btn-block mb-2" href="/exam_types/view_exam_type/{{_id}}">View</a></td>
+
+            </tr>
+
 
         {{else}}
             <p>No exam types found !!</p>
         {{/each}}
+        </table>
     </div>
 
     <!--

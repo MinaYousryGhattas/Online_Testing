@@ -4,7 +4,8 @@ var router = express.Router();
 var exam_type = require('./../models/exam_type');
 const Exam_type = mongoose.model('exam_type');
 
-router.get('/',(req, res)=>{
+
+router.get('/view',(req, res)=>{
     Exam_type.find().populate('topic').populate('question').then(exam_types=>{
         res.render('exam_type/show_exam_types',{
             exam_types: exam_types

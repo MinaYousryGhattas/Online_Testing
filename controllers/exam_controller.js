@@ -12,29 +12,13 @@ const ExamType = mongoose.model('exam_type');
 var counter =  "01";
 
 
-// async function getExamsLinks(types, job) {
-//     let links = [];
-//     for (var i = 0; i < types.length; i++) {
-//         var ex_type = await ExamType.findOne({"type_name": types[i]});
-//         var ex = await Exam.findOne({"exam_type": ex_type._id, "candidate": null}).populate("exam_type");
-//         let new_exam = new Exam({"exam_type": ex.exam_type, "candidate": null, "job": job});
-//         await new_exam.save();
-//         var job_exam = await Exam.findOne({"exam_type": ex.exam_type, "candidate": null, "job": job});
-//         var link = "http://localhost:3000/exams/" + job_exam._id;
-//         links.push(link);
-//     }
-//     return links;
-// }
 
 async function getQuestionByID(id, exam, callback) {
     question = await Question.findOne({_id: id});
-    var quest = new Question({"the_question" : question.the_question, "candidateAnswer" : "???"+counter, "marked" : "false", "right_answers" : question.right_answers, "wrong_answers" : question.wrong_answers });
-    quest.save();
-    new_q = await Question.findOne({"candidateAnswer" : "???"+counter});
-
-    exam.exam_questions.push(new_q);
-    counter = counter + "0";
-    //console.log('length = ', new_q);
+    var quest = new Question({"the_question" : question.the_question, "candidateAnswer" : "??", "marked" : "false", "right_answers" : question.right_answers, "wrong_answers" : question.wrong_answers });
+    await quest.save().then(q1=>{
+        exam.exam_questions.push(q1);
+    });
 }
 
 async function getTopicByID(id,exam,callback)
@@ -73,7 +57,6 @@ module.exports = {
         let links = [];
         for (var i = 0; i < types.length; i++) {
             var type = types[i];
-            console.log(type);
             var ex_type = await ExamType.findOne({"type_name": type });
             var ex = await Exam.findOne({"exam_type": ex_type._id, "candidate": null}).populate("exam_type");
             let new_exam = new Exam({"exam_type": ex.exam_type, "candidate": null, "job": job});

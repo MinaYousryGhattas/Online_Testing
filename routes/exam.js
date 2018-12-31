@@ -23,6 +23,7 @@ router.get('/:id',ensureAuthenticated,(req,res)=> {
     }).populate('exam_type')
         .populate('exam_questions')
         .then(ex => {
+            console.log("ex = ", ex);
             Exam.findOne({
                 exam_type: ex.exam_type._id,
                 candidate: req.user._id,
@@ -30,7 +31,7 @@ router.get('/:id',ensureAuthenticated,(req,res)=> {
             }).populate('exam_type')
                 .populate('exam_questions')
                 .then(exam => {
-                    if(exam == null)
+                    if(exam == null || exam.candidate == null )
                     {
                         let exam = new Exam({"exam_type": ex.exam_type, "candidate": req.user._id, "job": ex.job._id});
                         exam_controller.generateExam(exam, function (error, result)
@@ -43,7 +44,7 @@ router.get('/:id',ensureAuthenticated,(req,res)=> {
                     }
                     else
                     {
-                        if (exam.exam_questions[0].candidateAnswer[0] == "?")
+                        if (exam.exam_questions[0].candidateAnswer[0] == "?" )
                         {
                             res.render('exam/start_exam', {
                                 exam: exam
