@@ -12,7 +12,10 @@ const ExamType = mongoose.model('exam_type');
 var exam_controller = require('./../controllers/exam_controller');
 var email_controller = require('./../controllers/email_controller');
 var {ensureAuthenticated} = require('./../config/auth');
-
+var job = require('./../models/job');
+const Job = mongoose.model('job');
+var user = require('./../models/user');
+const User = mongoose.model('user');
 
 router.get('/:id',ensureAuthenticated,(req,res)=> {
     Exam.findOne({
@@ -168,6 +171,39 @@ router.get('/view_candidate_report/:id',ensureAuthenticated,(req,res)=> {
             candidate_total_scores: scores.candidate_total_scores
         })
     })
+});
+
+router.get('/solved/:user/:job',function (req, res) {
+    res.render('exam/show_candicate_solution',{
+        job:req.params.job,
+        userid:req.params.user
+
+    });
+});
+router.post('/solved/:user/:j',async function(req, res) {
+
+    var job = await Job.findOne({"applicants._id": req.params.j});
+
+   var user= await User.findOne({_id:req.params.user});
+
+    var examType= await ExamType.findOne({type_name:req.body.selected_exam});
+
+    await Exam.findOne( {$and : [{candidate:user._id},{job:job._id},{exam_type:examType._id}]}).populate('exam_type')
+    .populate('exam_questions').then(exam=>
+    {
+
+        if (exam.exam_questions[0].candidateAnswer[0] != "?"){
+            res.render("exam/user_solutions",{
+                questions:exam.exam_questions
+            });
+        }
+
+    }).catch(err=>{
+            res.render("exam/user_solutions");
+            }
+        )
+
+
 });
 
 module.exports = router;
