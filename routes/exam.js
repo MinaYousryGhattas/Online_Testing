@@ -62,17 +62,34 @@ router.get('/:id',ensureAuthenticated,(req,res)=> {
         })
 });
 
+function shuffle(a) {
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+ async function randomAnswers(exam)
+{
+    for (var i = 0; i < exam.exam_questions.length; i++) {
+        exam.exam_questions[i].right_answers = await shuffle(exam.exam_questions[i].right_answers);
+        exam.exam_questions[i].wrong_answers = await shuffle(exam.exam_questions[i].wrong_answers);
+    }
+    return exam;
+}
 router.get('/start/:id',ensureAuthenticated,(req, res)=>{
     Exam.findOne({
         _id: req.params.id,
         candidate: req.user._id
     }).populate('exam_type')
         .populate('exam_questions')
-        .then(exam=> {
-           // console.log("found = ", exam);
+        .then( async exam => {
+            console.log("found = ", exam);
+            exam = await randomAnswers(exam);
+
             res.render('exam/candidate_exam', {
-                    exam: exam
-                })
+                exam: exam
+            })
         })
 });
 
