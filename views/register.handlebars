@@ -1,0 +1,117 @@
+<script type="text/javascript" src="/javascripts/validation.js"></script>
+<div class="row">
+
+    <div class="card card-body">
+
+        <h3>Registration form </h3>
+        <form action="/users/register" onsubmit="return validate()" method="post">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="username" name="username" value="{{username}}" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>email</label>
+                <input type="text" id="email" name="email" value="{{email}}" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label>name</label>
+                <input type="text" id="name" name="name" value="{{name}}" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label>Telephone (Optionally) </label>
+                <input type="text" id="telephone" name="Telephone" value="{{Telephone}}" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label>password</label>
+                <input type="password" id="password" name="password" value="{{password}}" class="form-control" required>
+            </div>
+
+
+            <div class="form-group">
+                <label>Retype password</label>
+                <input type="password" id="password1" name="password1" value="{{password1}}" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Is Hr</label>
+                <input type="checkbox" name="Hr" value="hr"> <br>
+            </div>
+            <input type="submit" name="submit" class="btn btn-primary">
+        </form>
+
+    </div>
+
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(()=>{
+        $('#email').donetyping(()=>{
+            $.ajax({
+                data:{
+                    email: $('#email').val()
+                },
+                url: '/users_ajax/check_email',
+                type: 'GET',
+                success: (data)=>{
+                    if (data){
+                        $('#email')
+                                .css("border","1px solid green")
+                    }else{
+                        $('#email').css("border","1px solid red")
+
+                    }
+                }
+            });
+
+        });
+
+        $('#username').donetyping(()=>{
+            $.ajax({
+                data:{
+                    username: $('#username').val()
+                },
+                url: '/users_ajax/check_username',
+                type: 'GET',
+                success: (data)=>{
+                    if (data){
+                        $('#username').css("border","1px solid green")
+                    }else{
+                        $('#username').css("border","1px solid red")
+                    }
+                }
+            });
+        });
+        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        $('#email').donetyping(()=>{
+            if (!$('#email').val().match(re)){
+                $('#email').css("border","1px solid red")
+            }
+            else{
+                $('#email').css("border","1px solid green")
+            }
+
+        },1);
+
+        $('#password').donetyping(()=>{
+            if ($('#password').val().length < 8){
+                $('#password').css("border","1px solid red")
+            }
+            else{
+                $('#password').css("border","1px solid green")
+            }
+
+        },1);
+
+
+        $('#password1').donetyping(()=>{
+            if ($('#password1').val() === $('#password').val()){
+                $('#password1').css("border","1px solid green")
+            }else{
+                $('#password1').css("border","1px solid red")
+            }
+        },1)
+
+    });
+</script>

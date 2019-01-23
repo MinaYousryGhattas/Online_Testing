@@ -1,0 +1,20 @@
+<div class="card card-body">
+    <h3 class="test-muted">Candidates: </h3>
+    <br/>
+    <div class="card card-body mb-2">
+        <table border="1px solid" >
+            <tr>
+                <th style=" text-align: center"><b>Candidate Username</b></th>
+                <th style=" text-align: center"><b>Show Report</b></th>
+            </tr>
+            {{#each candidates}}
+                <tr>
+                    <td  align="center">  <h5> {{username}}</h5></td>
+                    <td align="center" ><a class="btn btn-primary btn-block mb-2" href="/exams/view_candidate_report/{{_id}}">View</a> <td>
+                </tr>
+            {{else}}
+                <p>No candidates found !!</p>
+            {{/each}}
+        </table>
+    </div>
+</div>

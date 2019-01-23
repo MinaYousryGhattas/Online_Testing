@@ -1,0 +1,28 @@
+
+<div class="panel panel-default">
+    <div class="panel-heading"><h1><i><b>user solution</b></i></h1></div>
+{{#if questions}}
+    <div class="panel-body">
+        <table  border="1px solid">
+            <tr>
+                <th style=" text-align: center"><b> question</b></th>
+                <th style=" text-align: center"><b> user answer</b></th>
+            </tr>
+        {{#each questions}}
+            <tr>
+               <td align="center"> {{the_question}}</td>
+               <td align="center"> {{candidateAnswer}}</td>
+           </tr>
+
+        {{/each}}
+
+        </table>
+{{else}}
+    <p>candidcate dosen't start this exam yet</p>
+{{/if}}
+
+    <button class="btn btn-primary btn-block mb-2" onclick="window.location.href='/'">Return home</button>
+
+</div>
+
+</div>

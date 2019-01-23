@@ -1,0 +1,11 @@
+<div class="row">
+    <form action="/jobs/apply_form" method="post" enctype="multipart/form-data">
+
+    <input type="text" name="_id" value={{job_id}} hidden required>
+        <div class="form-group">
+            <input type="file" class="form-control" id="cv" name="cv" required>
+            <br>
+            <button type="submit" class="btn btn-primary">Apply</button>
+        </div>
+    </form>
+</div>
